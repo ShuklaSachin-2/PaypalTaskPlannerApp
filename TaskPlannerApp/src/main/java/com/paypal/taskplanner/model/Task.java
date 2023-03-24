@@ -34,13 +34,13 @@ public class Task {
     private TaskType type;
     private TaskStatus status;
     
-    @JsonIgnore
+//    @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL)
     private User assignee;
 //    private LocalDateTime createdAt;
 //    private LocalDateTime updatedAt;
     
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Sprint sprint;
 
     // getters and setters
