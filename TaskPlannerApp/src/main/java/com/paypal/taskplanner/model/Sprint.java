@@ -4,12 +4,15 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,11 +31,11 @@ public class Sprint {
 	
     private String name;
     
-    private LocalDate startDate;
-    
-    private LocalDate endDate;
-    
-    @ManyToMany(cascade = CascadeType.ALL)
+//    private LocalDate startDate;
+//    
+//    private LocalDate endDate;
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "sprint")
     private List<Task> tasks = new ArrayList<>();
 
     // getters and setters
