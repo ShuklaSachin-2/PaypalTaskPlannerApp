@@ -25,7 +25,7 @@ function addSprint() {
         let option = document.createElement("option");
         option.value = data.name;
         option.text = data.name;
-        document.getElementById("sprint-select").add(option);
+        // document.getElementById("sprint-select").add(option);
 
         // Clear the sprint form
         document.getElementById("sprint-name").value = "";
@@ -49,55 +49,69 @@ function addSprintToTable(sprint) {
 
 // Function to add a task to a sprint
 function addTask() {
-    let sprintName = document.getElementById("sprint-select").value;
-    let title = document.getElementById("task-title").value;
-    let description = document.getElementById("task-description").value;
-    let taskType = document.getElementById("task-type").value;
-    let taskStatus = document.getElementById("task-status").value;
-    let assignedTo = document.getElementById("task-assigned-to").value;
+    // Get form input values
+    const sprintId = document.getElementById("sprint-select").value;
+    const title = document.getElementById("task-title").value;
+    const description = document.getElementById("task-desc").value;
+    const type = document.getElementById("task-type").value;
+    const status = document.getElementById("task-status").value;
+    const assignedTo = document.getElementById("task-assigned-to").value; // Read assigned-to value
 
-    // Find the sprint in the sprints array
-    let sprint = sprints.find(s => s.name === sprintName);
+    // Create new task object
+    const task = {
+        sprintId: sprintId,
+        title: title,
+        description: description,
+        type: type,
+        status: status,
+        assignedTo: assignedTo // Assign assignedTo value
+    };
 
-    // Create a task object with the input values
-    let task = {title, description, taskType, taskStatus, assignedTo};
-
-    // Send a POST request to the backend to add the task to the sprint
-    fetch(`/api/sprints/${sprintName}/tasks`, {
-        method: 'POST',
+    // Send task data to backend
+    fetch("http://localhost:8888/addtask/${sprintId}/${assignedTo}", {
+        method: "POST",
         headers: {
-            'Content-Type': 'application/json'
+            "Content-Type": "application/json"
+			
         },
         body: JSON.stringify(task)
     })
     .then(response => response.json())
     .then(data => {
-        // Add the returned task to the sprint's tasks array
-        sprint.tasks.push(data);
+        console.log(data);
+        // Add task to sprint table
+		 // Add task to sprint table
+		 const sprintTableBody = document.getElementById(`sprint-table-body`);
+		 console.log(sprintTableBody);
+		 const newRow = sprintTableBody.insertRow(-1);
+		 const cell1 = newRow.insertCell(0);
+		 const cell2 = newRow.insertCell(1);
+		 const cell3 = newRow.insertCell(2);
+		 const cell4 = newRow.insertCell(3);
+		 const cell5 = newRow.insertCell(4);
+		 const cell6 = newRow.insertCell(5);
+		 cell1.innerHTML = sprintId;
+		 cell2.innerHTML = title;
+		 cell3.innerHTML = description;
+		 
+		
+		 cell4.innerHTML = type === 'STORY' ? 'Story' : type === 'BUG' ? 'Bug' : 'Feature';
+cell5.innerHTML = status === 'NEW' ? 'New' : status === 'IN_PROGRESS' ? 'In Progress' : 'Done';
 
-        // Clear the task form
-        document.getElementById("task-title").value = "";
-        document.getElementById("task-description").value = "";
-        document.getElementById("task-type").value = "";
-        document.getElementById("task-status").value = "";
-        document.getElementById("task-assigned-to").value = "";
-
-        // Add the task to the sprint table
-        let table = document.getElementById("task-table-body");
-        let row = table.insertRow(-1);
-        let cell1 = row.insertCell(0);
-        let cell2 = row.insertCell(1);
-        let cell3 = row.insertCell(2);
-        let cell4 = row.insertCell(3);
-        let cell5 = row.insertCell(4);
-        cell1.innerHTML = data.title;
-        cell2.innerHTML = data.description;
-        cell3.innerHTML = data.taskType;
-        cell4.innerHTML = data.taskStatus;
-        cell5.innerHTML = data.assignedTo;
+		 cell6.innerHTML = assignedTo;
+		//  cell7.innerHTML = `<button onclick="deleteTask(${data.id})">Delete</button>`;
+        
     })
-    .catch(error => console.error(error));
+    .catch(error => console.log(error));
+
+	
+
+	 
+
+	
 }
+
+
 
 
 

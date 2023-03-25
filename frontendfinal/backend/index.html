@@ -23,30 +23,34 @@
                 <th>Assigned to</th>
 			</tr>
 		</thead>
-		<tbody>
+		<tbody id="sprint-table-body">
 		</tbody>
 	</table>
 	<br>
 	<h2>Add Task</h2>
 	<form>
 		<label for="sprint-name-task">Sprint Name:</label>
-		<input type="text" id="sprint-name-task" name="sprint-name-task" required><br><br>
+		<input type="text" id="sprint-select" name="sprint-name-task" required><br><br>
 		<label for="task-title">Task Title:</label>
 		<input type="text" id="task-title" name="task-title" required><br><br>
 		<label for="task-desc">Task Description:</label>
 		<textarea id="task-desc" name="task-desc" required></textarea><br><br>
+
+        <label for="task-assigned-to">Assigned To:</label>
+        <input type="number" id="task-assigned-to" name="assigned-to"><br><br>
+        
 		<label for="task-type">Task Type:</label>
 		<select id="task-type" name="task-type">
-			<option value="feature">Feature</option>
-			<option value="bugfix">Bugfix</option>
-			<option value="maintenance">Maintenance</option>
-			<option value="other">Other</option>
+			<option value="0">BUG</option>
+			<option value="1">FEATURE</option>
+			<option value="2">STORY</option>
+			<!-- <option value="other">Other</option> -->
 		</select><br><br>
 		<label for="task-status">Task Status:</label>
 		<select id="task-status" name="task-status">
-			<option value="todo">To Do</option>
-			<option value="inprogress">In Progress</option>
-			<option value="done">Done</option>
+			<option value="0">NEW</option>
+			<option value="1">IN_PROGRESS</option>
+			<option value="2">DONE</option>
 		</select><br><br>
 		<input type="button" value="Add Task" onclick="addTask()">
 	</form>
